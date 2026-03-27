@@ -14,6 +14,20 @@
 		07F95D4F2F761BF700D4CC75 /* TasklyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F95D4E2F761BF700D4CC75 /* TasklyTests.swift */; };
 		07F95D592F761BF800D4CC75 /* TasklyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F95D582F761BF800D4CC75 /* TasklyUITests.swift */; };
 		07F95D5B2F761BF800D4CC75 /* TasklyUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F95D5A2F761BF800D4CC75 /* TasklyUITestsLaunchTests.swift */; };
+		07F95D6F2F761D0600D4CC75 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F95D6E2F761D0600D4CC75 /* Task.swift */; };
+		07F95D712F761D1C00D4CC75 /* TaskViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F95D702F761D1C00D4CC75 /* TaskViewModel.swift */; };
+		07F95D732F761D3400D4CC75 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F95D722F761D3400D4CC75 /* HomeView.swift */; };
+		07F95D752F761D4500D4CC75 /* TaskListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F95D742F761D4500D4CC75 /* TaskListView.swift */; };
+		07F95D772F761D6200D4CC75 /* TaskRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F95D762F761D6200D4CC75 /* TaskRow.swift */; };
+		07F95D792F761D6E00D4CC75 /* AddTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F95D782F761D6E00D4CC75 /* AddTaskView.swift */; };
+		07F95D7B2F761D7E00D4CC75 /* EditTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F95D7A2F761D7E00D4CC75 /* EditTaskView.swift */; };
+		07F95D832F761DC600D4CC75 /* FilterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F95D822F761DC600D4CC75 /* FilterView.swift */; };
+		07F95D852F761FED00D4CC75 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F95D842F761FED00D4CC75 /* MainTabView.swift */; };
+		07F95D882F76220F00D4CC75 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F95D872F76220F00D4CC75 /* DashboardView.swift */; };
+		07F95D8A2F76226800D4CC75 /* DashboardTaskCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F95D892F76226800D4CC75 /* DashboardTaskCard.swift */; };
+		07F95D8C2F76236400D4CC75 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F95D8B2F76236400D4CC75 /* CalendarView.swift */; };
+		07F95D8E2F76238400D4CC75 /* CalendarMonthGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F95D8D2F76238400D4CC75 /* CalendarMonthGrid.swift */; };
+		07F95D902F7623AB00D4CC75 /* CalendarTaskCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F95D8F2F7623AB00D4CC75 /* CalendarTaskCard.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +58,20 @@
 		07F95D542F761BF800D4CC75 /* TasklyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TasklyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		07F95D582F761BF800D4CC75 /* TasklyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasklyUITests.swift; sourceTree = "<group>"; };
 		07F95D5A2F761BF800D4CC75 /* TasklyUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasklyUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		07F95D6E2F761D0600D4CC75 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
+		07F95D702F761D1C00D4CC75 /* TaskViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskViewModel.swift; sourceTree = "<group>"; };
+		07F95D722F761D3400D4CC75 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		07F95D742F761D4500D4CC75 /* TaskListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskListView.swift; sourceTree = "<group>"; };
+		07F95D762F761D6200D4CC75 /* TaskRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskRow.swift; sourceTree = "<group>"; };
+		07F95D782F761D6E00D4CC75 /* AddTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskView.swift; sourceTree = "<group>"; };
+		07F95D7A2F761D7E00D4CC75 /* EditTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskView.swift; sourceTree = "<group>"; };
+		07F95D822F761DC600D4CC75 /* FilterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterView.swift; sourceTree = "<group>"; };
+		07F95D842F761FED00D4CC75 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		07F95D872F76220F00D4CC75 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+		07F95D892F76226800D4CC75 /* DashboardTaskCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardTaskCard.swift; sourceTree = "<group>"; };
+		07F95D8B2F76236400D4CC75 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
+		07F95D8D2F76238400D4CC75 /* CalendarMonthGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarMonthGrid.swift; sourceTree = "<group>"; };
+		07F95D8F2F7623AB00D4CC75 /* CalendarTaskCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarTaskCard.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +122,9 @@
 		07F95D3C2F761BF600D4CC75 /* Taskly */ = {
 			isa = PBXGroup;
 			children = (
+				07F95D692F761C5D00D4CC75 /* Views */,
+				07F95D682F761C4C00D4CC75 /* ViewModels */,
+				07F95D672F761C3E00D4CC75 /* Models */,
 				07F95D3D2F761BF600D4CC75 /* TasklyApp.swift */,
 				07F95D3F2F761BF600D4CC75 /* ContentView.swift */,
 				07F95D412F761BF700D4CC75 /* Assets.xcassets */,
@@ -125,6 +156,81 @@
 				07F95D5A2F761BF800D4CC75 /* TasklyUITestsLaunchTests.swift */,
 			);
 			path = TasklyUITests;
+			sourceTree = "<group>";
+		};
+		07F95D672F761C3E00D4CC75 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				07F95D6E2F761D0600D4CC75 /* Task.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		07F95D682F761C4C00D4CC75 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				07F95D702F761D1C00D4CC75 /* TaskViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		07F95D692F761C5D00D4CC75 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				07F95D862F7621FC00D4CC75 /* Dashboard */,
+				07F95D6D2F761C9D00D4CC75 /* Filters */,
+				07F95D6C2F761C8300D4CC75 /* Calendar */,
+				07F95D6B2F761C7600D4CC75 /* Tasks */,
+				07F95D6A2F761C6B00D4CC75 /* Main */,
+				07F95D842F761FED00D4CC75 /* MainTabView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		07F95D6A2F761C6B00D4CC75 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				07F95D722F761D3400D4CC75 /* HomeView.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		07F95D6B2F761C7600D4CC75 /* Tasks */ = {
+			isa = PBXGroup;
+			children = (
+				07F95D742F761D4500D4CC75 /* TaskListView.swift */,
+				07F95D762F761D6200D4CC75 /* TaskRow.swift */,
+				07F95D782F761D6E00D4CC75 /* AddTaskView.swift */,
+				07F95D7A2F761D7E00D4CC75 /* EditTaskView.swift */,
+			);
+			path = Tasks;
+			sourceTree = "<group>";
+		};
+		07F95D6C2F761C8300D4CC75 /* Calendar */ = {
+			isa = PBXGroup;
+			children = (
+				07F95D8B2F76236400D4CC75 /* CalendarView.swift */,
+				07F95D8D2F76238400D4CC75 /* CalendarMonthGrid.swift */,
+				07F95D8F2F7623AB00D4CC75 /* CalendarTaskCard.swift */,
+			);
+			path = Calendar;
+			sourceTree = "<group>";
+		};
+		07F95D6D2F761C9D00D4CC75 /* Filters */ = {
+			isa = PBXGroup;
+			children = (
+				07F95D822F761DC600D4CC75 /* FilterView.swift */,
+			);
+			path = Filters;
+			sourceTree = "<group>";
+		};
+		07F95D862F7621FC00D4CC75 /* Dashboard */ = {
+			isa = PBXGroup;
+			children = (
+				07F95D872F76220F00D4CC75 /* DashboardView.swift */,
+				07F95D892F76226800D4CC75 /* DashboardTaskCard.swift */,
+			);
+			path = Dashboard;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -257,8 +363,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				07F95D7B2F761D7E00D4CC75 /* EditTaskView.swift in Sources */,
 				07F95D402F761BF600D4CC75 /* ContentView.swift in Sources */,
+				07F95D712F761D1C00D4CC75 /* TaskViewModel.swift in Sources */,
+				07F95D832F761DC600D4CC75 /* FilterView.swift in Sources */,
+				07F95D902F7623AB00D4CC75 /* CalendarTaskCard.swift in Sources */,
+				07F95D6F2F761D0600D4CC75 /* Task.swift in Sources */,
+				07F95D8C2F76236400D4CC75 /* CalendarView.swift in Sources */,
+				07F95D792F761D6E00D4CC75 /* AddTaskView.swift in Sources */,
+				07F95D852F761FED00D4CC75 /* MainTabView.swift in Sources */,
+				07F95D8E2F76238400D4CC75 /* CalendarMonthGrid.swift in Sources */,
+				07F95D8A2F76226800D4CC75 /* DashboardTaskCard.swift in Sources */,
+				07F95D732F761D3400D4CC75 /* HomeView.swift in Sources */,
 				07F95D3E2F761BF600D4CC75 /* TasklyApp.swift in Sources */,
+				07F95D772F761D6200D4CC75 /* TaskRow.swift in Sources */,
+				07F95D882F76220F00D4CC75 /* DashboardView.swift in Sources */,
+				07F95D752F761D4500D4CC75 /* TaskListView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
