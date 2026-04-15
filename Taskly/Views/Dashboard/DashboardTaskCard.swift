@@ -1,34 +1,38 @@
-//
-//  DashboardTaskCard.swift
-//  Taskly
-//
-//  Created by steven coverdale on 2026-03-26.
-//
-
 import SwiftUI
 
 struct DashboardTaskCard: View {
+    @EnvironmentObject var taskVM: TaskViewModel
     let task: TaskItem
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-
-            // TITLE
-            Text(task.title)
-                .font(.headline)
-
-            // NOTES
-            if !task.notes.isEmpty {
-                Text(task.notes)
-                    .font(.subheadline)
-                    .foregroundColor(.gray)
+        HStack(alignment: .top, spacing: 12) {
+            Button {
+                taskVM.toggleComplete(task)
+            } label: {
+                Image(systemName: task.isCompleted ? "checkmark.circle.fill" : "circle")
+                    .font(.title2)
+                    .foregroundColor(task.isCompleted ? .green : .gray)
             }
+            .buttonStyle(.plain)
+            .padding(.top, 2)
 
-            // STATUS ROW
-            HStack(spacing: 10) {
-                statusBadge
-                priorityBadge
-                categoryBadge(task.category.rawValue)
+            VStack(alignment: .leading, spacing: 8) {
+                Text(task.title)
+                    .font(.headline)
+                    .strikethrough(task.isCompleted, color: .gray)
+                    .foregroundColor(task.isCompleted ? .secondary : .primary)
+
+                if !task.notes.isEmpty {
+                    Text(task.notes)
+                        .font(.subheadline)
+                        .foregroundColor(.gray)
+                }
+
+                HStack(spacing: 8) {
+                    statusBadge
+                    priorityBadge
+                    categoryBadge(task.category.rawValue)
+                }
             }
         }
         .padding()
@@ -37,17 +41,19 @@ struct DashboardTaskCard: View {
         .cornerRadius(12)
     }
 
-    // MARK: - Badges
     private var statusBadge: some View {
         let overdue = task.dueDate < Date() && !task.isCompleted
+        let label = overdue ? "Overdue" : (task.isCompleted ? "Completed" : "Pending")
+        let icon = overdue ? "clock.fill" : "checkmark.circle.fill"
+        let bg: Color = overdue ? .red.opacity(0.2) : (task.isCompleted ? .green.opacity(0.2) : .gray.opacity(0.15))
 
-        return HStack {
-            Image(systemName: overdue ? "clock.fill" : "checkmark.circle.fill")
-            Text(overdue ? "Overdue" : (task.isCompleted ? "Completed" : "Pending"))
+        return HStack(spacing: 4) {
+            Image(systemName: icon)
+            Text(label)
         }
         .font(.caption)
         .padding(6)
-        .background(overdue ? Color.red.opacity(0.2) : Color.green.opacity(0.2))
+        .background(bg)
         .cornerRadius(8)
     }
 
@@ -67,18 +73,17 @@ struct DashboardTaskCard: View {
             .cornerRadius(8)
     }
 
-    // MARK: - Colors
     private var priorityColor: Color {
         switch task.priority {
-        case .high: return .orange
-        case .medium: return .yellow
+        case .high: return .red
+        case .medium: return .orange
         case .low: return .green
         }
     }
 
     private var cardColor: Color {
-        let overdue = task.dueDate < Date() && !task.isCompleted
-        return overdue ? Color.red.opacity(0.1) : Color.gray.opacity(0.05)
+        task.dueDate < Date() && !task.isCompleted
+            ? Color.red.opacity(0.08)
+            : Color.gray.opacity(0.05)
     }
 }
-
