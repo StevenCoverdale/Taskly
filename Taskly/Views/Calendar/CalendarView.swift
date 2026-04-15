@@ -7,8 +7,13 @@ struct CalendarView: View {
     @State private var selectedDate: Date = Date()
     @State private var showAdd = false
     @State private var editingTask: TaskItem? = nil
+    @State private var isWeekMode = false
 
     private let calendar = Calendar.current
+
+    private var weekStart: Date {
+        calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: selectedDate)) ?? selectedDate
+    }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -26,9 +31,10 @@ struct CalendarView: View {
                 Spacer()
 
                 HStack(spacing: 12) {
-                    Button("Week") {}
+                    Button("Week") { isWeekMode.toggle() }
                         .font(.subheadline)
-                        .foregroundColor(.gray)
+                        .foregroundColor(isWeekMode ? .purple : .gray)
+                        .fontWeight(isWeekMode ? .semibold : .regular)
 
                     Button("Today") {
                         selectedDate = Date()
@@ -59,25 +65,30 @@ struct CalendarView: View {
             }
             .padding(.vertical, 8)
 
-            HStack {
-                ForEach(calendar.shortWeekdaySymbols, id: \.self) { day in
-                    Text(day)
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                        .frame(maxWidth: .infinity)
+            if isWeekMode {
+                CalendarWeekView(weekStart: weekStart, selectedDate: $selectedDate)
+                    .padding(.vertical, 8)
+            } else {
+                HStack {
+                    ForEach(calendar.shortWeekdaySymbols, id: \.self) { day in
+                        Text(day)
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                            .frame(maxWidth: .infinity)
+                    }
                 }
-            }
-            .padding(.bottom, 4)
+                .padding(.bottom, 4)
 
-            let days = generateDays(for: currentMonth)
+                let days = generateDays(for: currentMonth)
 
-            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7), spacing: 12) {
-                ForEach(days, id: \.self) { date in
-                    dayCell(date)
-                        .onTapGesture { selectedDate = date }
+                LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7), spacing: 12) {
+                    ForEach(days, id: \.self) { date in
+                        dayCell(date)
+                            .onTapGesture { selectedDate = date }
+                    }
                 }
+                .padding(.bottom, 12)
             }
-            .padding(.bottom, 12)
 
             Divider().padding(.vertical, 8)
 

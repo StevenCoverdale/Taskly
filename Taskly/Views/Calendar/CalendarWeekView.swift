@@ -63,9 +63,9 @@ struct CalendarWeekView: View {
     }
 
     private func shortDay(_ date: Date) -> String {
-        let f = DateFormatter()
-        f.dateFormat = "EEE"
-        return f.string(from: date)
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEE"
+        return formatter.string(from: date)
     }
 
     private func dotColor(_ priority: TaskItem.Priority) -> Color {
