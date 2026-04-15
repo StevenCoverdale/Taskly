@@ -18,7 +18,7 @@ struct EditTaskView: View {
             TextField("Title", text: $task.title)
             TextField("Notes", text: $task.notes)
 
-            DatePicker("Due Date", selection: $task.dueDate, displayedComponents: .date)
+            DatePicker("Due Date & Time", selection: $task.dueDate, displayedComponents: [.date, .hourAndMinute])
 
             Picker("Priority", selection: $task.priority) {
                 ForEach(TaskItem.Priority.allCases, id: \.self) { p in

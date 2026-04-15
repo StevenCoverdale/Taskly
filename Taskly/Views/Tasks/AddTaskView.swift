@@ -23,7 +23,7 @@ struct AddTaskView: View {
                 TextField("Title", text: $title)
                 TextField("Notes", text: $notes)
 
-                DatePicker("Due Date", selection: $dueDate, displayedComponents: .date)
+                DatePicker("Due Date & Time", selection: $dueDate, displayedComponents: [.date, .hourAndMinute])
 
                 Picker("Priority", selection: $priority) {
                     ForEach(TaskItem.Priority.allCases, id: \.self) { p in

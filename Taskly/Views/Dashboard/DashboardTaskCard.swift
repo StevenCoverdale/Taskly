@@ -27,6 +27,10 @@ struct DashboardTaskCard: View {
                         .font(.subheadline)
                         .foregroundColor(.gray)
                 }
+                
+                Label(task.dueDate.formatted(date: .abbreviated, time: .shortened), systemImage: "clock")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
 
                 HStack(spacing: 8) {
                     statusBadge
