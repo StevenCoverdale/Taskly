@@ -1,10 +1,3 @@
-//
-//  DashboardView.swift
-//  Taskly
-//
-//  Created by steven coverdale on 2026-03-26.
-//
-
 import SwiftUI
 
 enum TaskFilter: String, CaseIterable {
@@ -14,8 +7,17 @@ enum TaskFilter: String, CaseIterable {
     case overdue = "Overdue"
 }
 
+enum TaskSort: String, CaseIterable {
+    case dueDate = "Due Date"
+    case priority = "Priority"
+    case title = "Title"
+}
+
 struct DashboardView: View {
+    @EnvironmentObject var taskVM: TaskViewModel
+    @State private var showAdd = false
     @State private var activeFilter: TaskFilter = .all
+    @State private var activeSort: TaskSort = .dueDate
 
     var filteredTasks: [TaskItem] {
         switch activeFilter {
@@ -25,15 +27,25 @@ struct DashboardView: View {
         case .overdue:   return taskVM.tasks.filter { $0.dueDate < Date() && !$0.isCompleted }
         }
     }
-    @EnvironmentObject var taskVM: TaskViewModel
-    @State private var showAdd = false
+
+    var displayedTasks: [TaskItem] {
+        let base = filteredTasks
+        switch activeSort {
+        case .dueDate:
+            return base.sorted { $0.dueDate < $1.dueDate }
+        case .priority:
+            let rank: [TaskItem.Priority: Int] = [.high: 0, .medium: 1, .low: 2]
+            return base.sorted { rank[$0.priority, default: 1] < rank[$1.priority, default: 1] }
+        case .title:
+            return base.sorted { $0.title.localizedCaseInsensitiveCompare($1.title) == .orderedAscending }
+        }
+    }
 
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
 
-                    // HEADER
                     HStack {
                         Text("Taskly")
                             .font(.largeTitle.bold())
@@ -52,18 +64,28 @@ struct DashboardView: View {
                         }
                     }
 
-                    // STATS GRID
                     statsSection
 
-                    // FILTER BUTTONS
                     filterSection
 
-                    // TASK LIST
-                    Text("Tasks (\(filteredTasks.count))")
+                    HStack {
+                        Text("Sort:")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                        Picker("Sort", selection: $activeSort) {
+                            ForEach(TaskSort.allCases, id: \.self) { s in
+                                Text(s.rawValue).tag(s)
+                            }
+                        }
+                        .pickerStyle(.menu)
+                        Spacer()
+                    }
+
+                    Text("Tasks (\(displayedTasks.count))")
                         .font(.title3.bold())
                         .padding(.top, 10)
 
-                    if filteredTasks.isEmpty {
+                    if displayedTasks.isEmpty {
                         VStack(spacing: 16) {
                             Image(systemName: "tray")
                                 .font(.system(size: 48))
@@ -80,7 +102,7 @@ struct DashboardView: View {
                         .padding(.vertical, 50)
                     } else {
                         VStack(spacing: 16) {
-                            ForEach(filteredTasks) { task in
+                            ForEach(displayedTasks) { task in
                                 DashboardTaskCard(task: task)
                             }
                         }
@@ -95,7 +117,6 @@ struct DashboardView: View {
         }
     }
 
-    // MARK: - Stats Section
     private var statsSection: some View {
         let total = taskVM.tasks.count
         let completed = taskVM.tasks.filter { $0.isCompleted }.count
@@ -103,7 +124,6 @@ struct DashboardView: View {
         let dueSoon = taskVM.tasks.filter { !$0.isCompleted && Calendar.current.isDateInTomorrow($0.dueDate) }.count
 
         return LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 16), count: 2), spacing: 16) {
-
             statCard(title: "Total Tasks", value: total, color: .purple)
             statCard(title: "Completed", value: completed, color: .green)
             statCard(title: "Overdue", value: overdue, color: .red)
@@ -111,7 +131,6 @@ struct DashboardView: View {
         }
     }
 
-    // MARK: - Filter Section
     private var filterSection: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 8) {
@@ -131,7 +150,6 @@ struct DashboardView: View {
         }
     }
 
-    // MARK: - Components
     private func statCard(title: String, value: Int, color: Color) -> some View {
         VStack(alignment: .leading) {
             Text(title)
@@ -146,14 +164,5 @@ struct DashboardView: View {
         .frame(maxWidth: .infinity, minHeight: 80)
         .background(color)
         .cornerRadius(12)
-    }
-
-    private func filterButton(_ title: String) -> some View {
-        Text(title)
-            .font(.subheadline)
-            .padding(.horizontal, 16)
-            .padding(.vertical, 8)
-            .background(Color.gray.opacity(0.15))
-            .cornerRadius(10)
     }
 }
