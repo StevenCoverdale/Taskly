@@ -1,10 +1,3 @@
-//
-//  AddTaskView.swift
-//  Taskly
-//
-//  Created by steven coverdale on 2026-03-26.
-//
-
 import SwiftUI
 
 struct AddTaskView: View {
@@ -13,9 +6,13 @@ struct AddTaskView: View {
 
     @State private var title = ""
     @State private var notes = ""
-    @State private var dueDate = Date()
+    @State private var dueDate: Date
     @State private var priority: TaskItem.Priority = .medium
     @State private var category: TaskItem.Category = .general
+
+    init(prefilledDate: Date = .now) {
+        _dueDate = State(initialValue: prefilledDate)
+    }
 
     var body: some View {
         NavigationStack {
@@ -30,6 +27,7 @@ struct AddTaskView: View {
                         Text(p.rawValue.capitalized)
                     }
                 }
+
                 Picker("Category", selection: $category) {
                     ForEach(TaskItem.Category.allCases, id: \.self) { c in
                         Text(c.rawValue)

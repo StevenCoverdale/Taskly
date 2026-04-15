@@ -5,13 +5,14 @@ struct CalendarView: View {
 
     @State private var currentMonth: Date = Date()
     @State private var selectedDate: Date = Date()
+    @State private var showAdd = false
 
     private let calendar = Calendar.current
 
     var body: some View {
         VStack(spacing: 0) {
             HStack {
-                Button(action: {}) {
+                Button(action: { showAdd = true }) {
                     Text("+ New Task")
                         .font(.headline)
                         .padding(.vertical, 8)
@@ -135,6 +136,9 @@ struct CalendarView: View {
             Spacer()
         }
         .padding(.horizontal)
+        .sheet(isPresented: $showAdd) {
+            AddTaskView(prefilledDate: selectedDate)
+        }
     }
 }
 
