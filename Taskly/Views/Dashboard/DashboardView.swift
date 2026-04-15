@@ -7,7 +7,24 @@
 
 import SwiftUI
 
+enum TaskFilter: String, CaseIterable {
+    case all = "All"
+    case pending = "Pending"
+    case completed = "Done"
+    case overdue = "Overdue"
+}
+
 struct DashboardView: View {
+    @State private var activeFilter: TaskFilter = .all
+
+    var filteredTasks: [TaskItem] {
+        switch activeFilter {
+        case .all:       return taskVM.tasks
+        case .pending:   return taskVM.tasks.filter { !$0.isCompleted }
+        case .completed: return taskVM.tasks.filter { $0.isCompleted }
+        case .overdue:   return taskVM.tasks.filter { $0.dueDate < Date() && !$0.isCompleted }
+        }
+    }
     @EnvironmentObject var taskVM: TaskViewModel
     @State private var showAdd = false
 
@@ -42,12 +59,12 @@ struct DashboardView: View {
                     filterSection
 
                     // TASK LIST
-                    Text("Tasks (\(taskVM.tasks.count))")
+                    Text("Tasks (\(filteredTasks.count))")
                         .font(.title3.bold())
                         .padding(.top, 10)
 
                     VStack(spacing: 16) {
-                        ForEach(taskVM.tasks) { task in
+                        ForEach(filteredTasks) { task in
                             DashboardTaskCard(task: task)
                         }
                     }
@@ -79,10 +96,21 @@ struct DashboardView: View {
 
     // MARK: - Filter Section
     private var filterSection: some View {
-        HStack {
-            filterButton("Status")
-            filterButton("Category")
-            filterButton("Due")
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 8) {
+                ForEach(TaskFilter.allCases, id: \.self) { filter in
+                    Button(filter.rawValue) {
+                        activeFilter = filter
+                    }
+                    .font(.subheadline)
+                    .padding(.horizontal, 14)
+                    .padding(.vertical, 8)
+                    .background(activeFilter == filter ? Color.blue : Color.gray.opacity(0.15))
+                    .foregroundColor(activeFilter == filter ? .white : .primary)
+                    .cornerRadius(10)
+                    .animation(.easeInOut(duration: 0.15), value: activeFilter)
+                }
+            }
         }
     }
 
