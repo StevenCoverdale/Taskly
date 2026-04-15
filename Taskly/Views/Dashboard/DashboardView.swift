@@ -19,6 +19,7 @@ struct DashboardView: View {
     @State private var activeFilter: TaskFilter = .all
     @State private var activeSort: TaskSort = .dueDate
     @State private var searchText = ""
+    @FocusState private var isSearchFocused: Bool
 
     var filteredTasks: [TaskItem] {
         switch activeFilter {
@@ -73,22 +74,35 @@ struct DashboardView: View {
                     }
 
                     HStack(spacing: 8) {
-                        Image(systemName: "magnifyingglass")
-                            .foregroundColor(.secondary)
-                        TextField("Search tasks, categories...", text: $searchText)
-                            .textFieldStyle(.plain)
-                        if !searchText.isEmpty {
-                            Button {
-                                searchText = ""
-                            } label: {
-                                Image(systemName: "xmark.circle.fill")
-                                    .foregroundColor(.secondary)
+                        HStack(spacing: 8) {
+                            Image(systemName: "magnifyingglass")
+                                .foregroundColor(.secondary)
+                            TextField("Search tasks, categories...", text: $searchText)
+                                .textFieldStyle(.plain)
+                                .focused($isSearchFocused)
+                            if !searchText.isEmpty {
+                                Button {
+                                    searchText = ""
+                                } label: {
+                                    Image(systemName: "xmark.circle.fill")
+                                        .foregroundColor(.secondary)
+                                }
                             }
                         }
+                        .padding(10)
+                        .background(Color.gray.opacity(0.1))
+                        .cornerRadius(10)
+
+                        if isSearchFocused {
+                            Button("Cancel") {
+                                searchText = ""
+                                isSearchFocused = false
+                            }
+                            .foregroundColor(.blue)
+                            .transition(.move(edge: .trailing).combined(with: .opacity))
+                        }
                     }
-                    .padding(10)
-                    .background(Color.gray.opacity(0.1))
-                    .cornerRadius(10)
+                    .animation(.easeInOut(duration: 0.2), value: isSearchFocused)
 
                     statsSection
 
@@ -138,6 +152,7 @@ struct DashboardView: View {
                 }
                 .padding()
             }
+            .scrollDismissesKeyboard(.immediately)
             .navigationBarHidden(true)
             .sheet(isPresented: $showAdd) {
                 AddTaskView()
