@@ -15,6 +15,7 @@ struct AddTaskView: View {
     @State private var notes = ""
     @State private var dueDate = Date()
     @State private var priority: TaskItem.Priority = .medium
+    @State private var category: TaskItem.Category = .general
 
     var body: some View {
         NavigationStack {
@@ -29,6 +30,11 @@ struct AddTaskView: View {
                         Text(p.rawValue.capitalized)
                     }
                 }
+                Picker("Category", selection: $category) {
+                    ForEach(TaskItem.Category.allCases, id: \.self) { c in
+                        Text(c.rawValue)
+                    }
+                }
             }
             .navigationTitle("New Task")
             .toolbar {
@@ -38,7 +44,8 @@ struct AddTaskView: View {
                             title: title,
                             notes: notes,
                             dueDate: dueDate,
-                            priority: priority
+                            priority: priority,
+                            category: category
                         )
                         taskVM.addTask(newTask)
                         dismiss()

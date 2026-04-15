@@ -28,8 +28,7 @@ struct DashboardTaskCard: View {
             HStack(spacing: 10) {
                 statusBadge
                 priorityBadge
-                categoryBadge("Assignment")
-                categoryBadge("Study")
+                categoryBadge(task.category.rawValue)
             }
         }
         .padding()

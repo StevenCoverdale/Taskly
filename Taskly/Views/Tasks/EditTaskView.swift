@@ -25,6 +25,11 @@ struct EditTaskView: View {
                     Text(p.rawValue.capitalized)
                 }
             }
+            Picker("Category", selection: $task.category) {
+                ForEach(TaskItem.Category.allCases, id: \.self) { c in
+                    Text(c.rawValue)
+                }
+            }
 
             Toggle("Completed", isOn: $task.isCompleted)
         }
