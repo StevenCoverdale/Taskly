@@ -4,6 +4,16 @@ struct DashboardTaskCard: View {
     @EnvironmentObject var taskVM: TaskViewModel
     let task: TaskItem
 
+    private var isOverdue: Bool {
+        task.dueDate < Date() && !task.isCompleted
+    }
+
+    private var isDueSoon: Bool {
+        guard !task.isCompleted, task.dueDate >= Date() else { return false }
+        let inSevenDays = Calendar.current.date(byAdding: .day, value: 7, to: Date()) ?? Date()
+        return task.dueDate <= inSevenDays
+    }
+
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
             Button {
@@ -46,10 +56,9 @@ struct DashboardTaskCard: View {
     }
 
     private var statusBadge: some View {
-        let overdue = task.dueDate < Date() && !task.isCompleted
-        let label = overdue ? "Overdue" : (task.isCompleted ? "Completed" : "Pending")
-        let icon = overdue ? "clock.fill" : "checkmark.circle.fill"
-        let bg: Color = overdue ? .red.opacity(0.2) : (task.isCompleted ? .green.opacity(0.2) : .gray.opacity(0.15))
+        let label = isOverdue ? "Overdue" : (task.isCompleted ? "Completed" : (isDueSoon ? "Due Soon" : "Pending"))
+        let icon = isOverdue ? "clock.fill" : "checkmark.circle.fill"
+        let bg: Color = isOverdue ? .red.opacity(0.2) : (task.isCompleted ? .green.opacity(0.2) : (isDueSoon ? .yellow.opacity(0.3) : .gray.opacity(0.15)))
 
         return HStack(spacing: 4) {
             Image(systemName: icon)
@@ -86,12 +95,9 @@ struct DashboardTaskCard: View {
     }
 
     private var cardColor: Color {
-        if task.dueDate < Date() && !task.isCompleted {
-            return Color.red.opacity(0.08)
-        } else if task.isCompleted {
-            return Color.green.opacity(0.06)
-        } else {
-            return Color.gray.opacity(0.05)
-        }
+        if isOverdue       { return Color.red.opacity(0.08) }
+        if task.isCompleted { return Color.green.opacity(0.06) }
+        if isDueSoon       { return Color.yellow.opacity(0.12) }
+        return Color.gray.opacity(0.05)
     }
 }
