@@ -121,13 +121,17 @@ struct DashboardView: View {
         let total = taskVM.tasks.count
         let completed = taskVM.tasks.filter { $0.isCompleted }.count
         let overdue = taskVM.tasks.filter { $0.dueDate < Date() && !$0.isCompleted }.count
-        let dueSoon = taskVM.tasks.filter { !$0.isCompleted && Calendar.current.isDateInTomorrow($0.dueDate) }.count
+        let dueSoon = taskVM.tasks.filter {
+            guard !$0.isCompleted else { return false }
+            let inSevenDays = Calendar.current.date(byAdding: .day, value: 7, to: Date()) ?? Date()
+            return $0.dueDate >= Date() && $0.dueDate <= inSevenDays
+        }.count
 
         return LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 16), count: 2), spacing: 16) {
             statCard(title: "Total Tasks", value: total, color: .purple)
             statCard(title: "Completed", value: completed, color: .green)
             statCard(title: "Overdue", value: overdue, color: .red)
-            statCard(title: "Due Soon", value: dueSoon, color: .orange)
+            statCard(title: "Next 7 Days", value: dueSoon, color: .orange)
         }
     }
 
