@@ -50,6 +50,7 @@ struct AddTaskView: View {
                         taskVM.addTask(newTask)
                         dismiss()
                     }
+                    .disabled(title.trimmingCharacters(in: .whitespaces).isEmpty)
                 }
 
                 ToolbarItem(placement: .cancellationAction) {

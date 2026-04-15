@@ -39,6 +39,7 @@ struct EditTaskView: View {
                 taskVM.updateTask(task)
                 dismiss()
             }
+            .disabled(task.title.trimmingCharacters(in: .whitespaces).isEmpty)
         }
     }
 }
