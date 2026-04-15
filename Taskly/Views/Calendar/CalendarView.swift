@@ -6,6 +6,7 @@ struct CalendarView: View {
     @State private var currentMonth: Date = Date()
     @State private var selectedDate: Date = Date()
     @State private var showAdd = false
+    @State private var editingTask: TaskItem? = nil
 
     private let calendar = Calendar.current
 
@@ -129,8 +130,13 @@ struct CalendarView: View {
                         .padding()
                         .background(Color(.systemGray6))
                         .cornerRadius(10)
+                        .contentShape(Rectangle())
+                        .onTapGesture { editingTask = task }
                     }
                 }
+            }
+            .sheet(item: $editingTask) { task in
+                EditTaskView(task: task)
             }
 
             Spacer()
