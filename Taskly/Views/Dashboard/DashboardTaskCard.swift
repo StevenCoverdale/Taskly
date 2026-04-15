@@ -19,15 +19,15 @@ struct DashboardTaskCard: View {
             VStack(alignment: .leading, spacing: 8) {
                 Text(task.title)
                     .font(.headline)
-                    .strikethrough(task.isCompleted, color: .gray)
-                    .foregroundColor(task.isCompleted ? .secondary : .primary)
+                    .strikethrough(task.isCompleted, color: .green)
+                    .foregroundColor(task.isCompleted ? .green : .primary)
 
                 if !task.notes.isEmpty {
                     Text(task.notes)
                         .font(.subheadline)
                         .foregroundColor(.gray)
                 }
-                
+
                 Label(task.dueDate.formatted(date: .abbreviated, time: .shortened), systemImage: "clock")
                     .font(.caption)
                     .foregroundColor(.secondary)
@@ -86,8 +86,12 @@ struct DashboardTaskCard: View {
     }
 
     private var cardColor: Color {
-        task.dueDate < Date() && !task.isCompleted
-            ? Color.red.opacity(0.08)
-            : Color.gray.opacity(0.05)
+        if task.dueDate < Date() && !task.isCompleted {
+            return Color.red.opacity(0.08)
+        } else if task.isCompleted {
+            return Color.green.opacity(0.06)
+        } else {
+            return Color.gray.opacity(0.05)
+        }
     }
 }

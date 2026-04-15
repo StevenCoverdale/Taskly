@@ -116,6 +116,8 @@ struct CalendarView: View {
                                 Text(task.title)
                                     .font(.body)
                                     .fontWeight(.medium)
+                                    .strikethrough(task.isCompleted, color: .green)
+                                    .foregroundColor(task.isCompleted ? .green : .primary)
 
                                 HStack {
                                     Text(task.priority.rawValue.capitalized)
@@ -139,7 +141,7 @@ struct CalendarView: View {
                             Spacer()
                         }
                         .padding()
-                        .background(Color(.systemGray6))
+                        .background(task.isCompleted ? Color.green.opacity(0.06) : Color(.systemGray6))
                         .cornerRadius(10)
                         .contentShape(Rectangle())
                         .onTapGesture { editingTask = task }
@@ -174,12 +176,14 @@ extension CalendarView {
             ForEach(topTasks) { task in
                 HStack(spacing: 4) {
                     Circle()
-                        .fill(.purple)
+                        .fill(task.isCompleted ? Color.green : Color.purple)
                         .frame(width: 6, height: 6)
 
                     Text(task.title)
                         .font(.caption)
                         .lineLimit(1)
+                        .strikethrough(task.isCompleted, color: .green)
+                        .foregroundColor(task.isCompleted ? .green : .primary)
                 }
             }
         }
