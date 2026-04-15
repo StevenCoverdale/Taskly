@@ -18,6 +18,7 @@ struct DashboardView: View {
     @State private var showAdd = false
     @State private var activeFilter: TaskFilter = .all
     @State private var activeSort: TaskSort = .dueDate
+    @State private var searchText = ""
 
     var filteredTasks: [TaskItem] {
         switch activeFilter {
@@ -29,7 +30,14 @@ struct DashboardView: View {
     }
 
     var displayedTasks: [TaskItem] {
-        let base = filteredTasks
+        var base = filteredTasks
+        if !searchText.trimmingCharacters(in: .whitespaces).isEmpty {
+            base = base.filter {
+                $0.title.localizedCaseInsensitiveContains(searchText) ||
+                $0.notes.localizedCaseInsensitiveContains(searchText) ||
+                $0.category.rawValue.localizedCaseInsensitiveContains(searchText)
+            }
+        }
         switch activeSort {
         case .dueDate:
             return base.sorted { $0.dueDate < $1.dueDate }
@@ -64,6 +72,24 @@ struct DashboardView: View {
                         }
                     }
 
+                    HStack(spacing: 8) {
+                        Image(systemName: "magnifyingglass")
+                            .foregroundColor(.secondary)
+                        TextField("Search tasks, categories...", text: $searchText)
+                            .textFieldStyle(.plain)
+                        if !searchText.isEmpty {
+                            Button {
+                                searchText = ""
+                            } label: {
+                                Image(systemName: "xmark.circle.fill")
+                                    .foregroundColor(.secondary)
+                            }
+                        }
+                    }
+                    .padding(10)
+                    .background(Color.gray.opacity(0.1))
+                    .cornerRadius(10)
+
                     statsSection
 
                     filterSection
@@ -90,10 +116,12 @@ struct DashboardView: View {
                             Image(systemName: "tray")
                                 .font(.system(size: 48))
                                 .foregroundColor(.secondary.opacity(0.4))
-                            Text(activeFilter == .all ? "No tasks yet" : "No \(activeFilter.rawValue.lowercased()) tasks")
+                            Text(searchText.isEmpty
+                                 ? (activeFilter == .all ? "No tasks yet" : "No \(activeFilter.rawValue.lowercased()) tasks")
+                                 : "No results for \"\(searchText)\"")
                                 .font(.headline)
                                 .foregroundColor(.secondary)
-                            if activeFilter == .all {
+                            if activeFilter == .all && searchText.isEmpty {
                                 Button("Add your first task") { showAdd = true }
                                     .buttonStyle(.borderedProminent)
                             }
