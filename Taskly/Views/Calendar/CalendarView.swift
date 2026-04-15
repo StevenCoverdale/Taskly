@@ -85,42 +85,54 @@ struct CalendarView: View {
 
                 let tasks = taskVM.tasks(for: selectedDate)
 
-                ForEach(tasks) { task in
-                    HStack {
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(task.title)
-                                .font(.body)
-                                .fontWeight(.medium)
+                if tasks.isEmpty {
+                    VStack(spacing: 10) {
+                        Image(systemName: "calendar.badge.exclamationmark")
+                            .font(.system(size: 36))
+                            .foregroundColor(.secondary.opacity(0.4))
+                        Text("No tasks on \(formattedDate(selectedDate))")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 24)
+                } else {
+                    ForEach(tasks) { task in
+                        HStack {
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(task.title)
+                                    .font(.body)
+                                    .fontWeight(.medium)
 
-                            HStack {
-                                Text(task.priority.rawValue.capitalized)
-                                    .font(.caption)
-                                    .padding(.horizontal, 6)
-                                    .padding(.vertical, 2)
-                                    .background(Color.purple.opacity(0.2)) // FIXED
-                                    .cornerRadius(6)
-
-                                if !task.notes.isEmpty {
-                                    Text("In Progress")
+                                HStack {
+                                    Text(task.priority.rawValue.capitalized)
                                         .font(.caption)
                                         .padding(.horizontal, 6)
                                         .padding(.vertical, 2)
-                                        .background(Color.gray.opacity(0.2))
+                                        .background(Color.purple.opacity(0.2))
                                         .cornerRadius(6)
+
+                                    if !task.notes.isEmpty {
+                                        Text("In Progress")
+                                            .font(.caption)
+                                            .padding(.horizontal, 6)
+                                            .padding(.vertical, 2)
+                                            .background(Color.gray.opacity(0.2))
+                                            .cornerRadius(6)
+                                    }
                                 }
                             }
-                        }
 
-                        Spacer()
+                            Spacer()
+                        }
+                        .padding()
+                        .background(Color(.systemGray6))
+                        .cornerRadius(10)
                     }
-                    .padding()
-                    .background(Color(.systemGray6))
-                    .cornerRadius(10)
                 }
             }
 
             Spacer()
-            .padding(.vertical, 10)
         }
         .padding(.horizontal)
     }
@@ -141,7 +153,7 @@ extension CalendarView {
             ForEach(topTasks) { task in
                 HStack(spacing: 4) {
                     Circle()
-                        .fill(.purple)   // FIXED — no .color
+                        .fill(.purple)
                         .frame(width: 6, height: 6)
 
                     Text(task.title)
@@ -202,4 +214,3 @@ extension CalendarView {
     CalendarView()
         .environmentObject(TaskViewModel())
 }
-

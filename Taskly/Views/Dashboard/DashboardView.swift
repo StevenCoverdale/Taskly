@@ -63,9 +63,26 @@ struct DashboardView: View {
                         .font(.title3.bold())
                         .padding(.top, 10)
 
-                    VStack(spacing: 16) {
-                        ForEach(filteredTasks) { task in
-                            DashboardTaskCard(task: task)
+                    if filteredTasks.isEmpty {
+                        VStack(spacing: 16) {
+                            Image(systemName: "tray")
+                                .font(.system(size: 48))
+                                .foregroundColor(.secondary.opacity(0.4))
+                            Text(activeFilter == .all ? "No tasks yet" : "No \(activeFilter.rawValue.lowercased()) tasks")
+                                .font(.headline)
+                                .foregroundColor(.secondary)
+                            if activeFilter == .all {
+                                Button("Add your first task") { showAdd = true }
+                                    .buttonStyle(.borderedProminent)
+                            }
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 50)
+                    } else {
+                        VStack(spacing: 16) {
+                            ForEach(filteredTasks) { task in
+                                DashboardTaskCard(task: task)
+                            }
                         }
                     }
                 }
