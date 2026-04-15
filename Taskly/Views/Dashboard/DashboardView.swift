@@ -40,15 +40,17 @@ struct DashboardView: View {
                 $0.category.rawValue.localizedCaseInsensitiveContains(searchText)
             }
         }
+        let sorted: [TaskItem]
         switch activeSort {
         case .dueDate:
-            return base.sorted { $0.dueDate < $1.dueDate }
+            sorted = base.sorted { $0.dueDate < $1.dueDate }
         case .priority:
             let rank: [TaskItem.Priority: Int] = [.high: 0, .medium: 1, .low: 2]
-            return base.sorted { rank[$0.priority, default: 1] < rank[$1.priority, default: 1] }
+            sorted = base.sorted { rank[$0.priority, default: 1] < rank[$1.priority, default: 1] }
         case .title:
-            return base.sorted { $0.title.localizedCaseInsensitiveCompare($1.title) == .orderedAscending }
+            sorted = base.sorted { $0.title.localizedCaseInsensitiveCompare($1.title) == .orderedAscending }
         }
+        return sorted.sorted { !$0.isCompleted && $1.isCompleted }
     }
 
     var body: some View {
@@ -146,9 +148,8 @@ struct DashboardView: View {
                     } else {
                         VStack(spacing: 16) {
                             ForEach(displayedTasks) { task in
-                                DashboardTaskCard(task: task)
-                                    .contentShape(Rectangle())
-                                    .onTapGesture { editingTask = task }
+                                TaskCardRow(task: task, onTap: { editingTask = task })
+                                    .transition(.opacity)
                             }
                         }
                     }
@@ -217,5 +218,99 @@ struct DashboardView: View {
         .frame(maxWidth: .infinity, minHeight: 80)
         .background(color)
         .cornerRadius(12)
+    }
+}
+
+struct TaskCardRow: View {
+    @EnvironmentObject var taskVM: TaskViewModel
+    let task: TaskItem
+    let onTap: () -> Void
+
+    @State private var dragOffset: CGFloat = 0
+    @State private var isSwiped = false
+    @State private var showConfirmation = false
+
+    private let deleteWidth: CGFloat = 80
+
+    private var cardOffset: CGFloat {
+        let base = isSwiped ? -deleteWidth : 0
+        return min(max(base + dragOffset, -deleteWidth), 0)
+    }
+
+    var body: some View {
+        ZStack(alignment: .trailing) {
+            Button {
+                showConfirmation = true
+            } label: {
+                VStack(spacing: 4) {
+                    Image(systemName: "trash.fill")
+                    Text("Delete")
+                        .font(.caption.bold())
+                }
+                .foregroundColor(.white)
+                .frame(width: deleteWidth)
+                .frame(maxHeight: .infinity)
+                .background(Color.red)
+                .cornerRadius(12)
+            }
+            .opacity(cardOffset < 0 ? 1 : 0)
+            .allowsHitTesting(cardOffset < 0)
+
+            DashboardTaskCard(task: task)
+                .background(Color(UIColor.systemBackground))
+                .offset(x: cardOffset)
+                .onTapGesture {
+                    if isSwiped {
+                        withAnimation(.spring(response: 0.3)) {
+                            isSwiped = false
+                            dragOffset = 0
+                        }
+                    } else {
+                        onTap()
+                    }
+                }
+                .simultaneousGesture(
+                    DragGesture(minimumDistance: 20, coordinateSpace: .local)
+                        .onChanged { value in
+                            let isHorizontal = abs(value.translation.width) > abs(value.translation.height)
+                            if isHorizontal {
+                                dragOffset = value.translation.width
+                            } else {
+                                // vertical drag — close swipe and let ScrollView take over
+                                if isSwiped || dragOffset != 0 {
+                                    withAnimation(.spring(response: 0.3)) {
+                                        isSwiped = false
+                                        dragOffset = 0
+                                    }
+                                }
+                            }
+                        }
+                        .onEnded { value in
+                            let isHorizontal = abs(value.translation.width) > abs(value.translation.height)
+                            withAnimation(.spring(response: 0.3)) {
+                                if isHorizontal {
+                                    let net = (isSwiped ? -deleteWidth : 0) + value.translation.width
+                                    isSwiped = net < -(deleteWidth / 2)
+                                }
+                                dragOffset = 0
+                            }
+                        }
+                )
+        }
+        .alert("Delete \"\(task.title)\"?", isPresented: $showConfirmation) {
+            Button("Delete", role: .destructive) {
+                withAnimation(.easeOut(duration: 0.25)) {
+                    taskVM.deleteTask(task)
+                }
+            }
+            Button("Cancel", role: .cancel) {
+                withAnimation(.spring(response: 0.3)) {
+                    isSwiped = false
+                    dragOffset = 0
+                }
+            }
+        } message: {
+            Text("This cannot be undone.")
+        }
     }
 }
