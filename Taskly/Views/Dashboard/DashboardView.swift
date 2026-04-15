@@ -16,6 +16,7 @@ enum TaskSort: String, CaseIterable {
 struct DashboardView: View {
     @EnvironmentObject var taskVM: TaskViewModel
     @State private var showAdd = false
+    @State private var editingTask: TaskItem? = nil
     @State private var activeFilter: TaskFilter = .all
     @State private var activeSort: TaskSort = .dueDate
     @State private var searchText = ""
@@ -146,6 +147,8 @@ struct DashboardView: View {
                         VStack(spacing: 16) {
                             ForEach(displayedTasks) { task in
                                 DashboardTaskCard(task: task)
+                                    .contentShape(Rectangle())
+                                    .onTapGesture { editingTask = task }
                             }
                         }
                     }
@@ -156,6 +159,9 @@ struct DashboardView: View {
             .navigationBarHidden(true)
             .sheet(isPresented: $showAdd) {
                 AddTaskView()
+            }
+            .sheet(item: $editingTask) { task in
+                EditTaskView(task: task)
             }
         }
     }
