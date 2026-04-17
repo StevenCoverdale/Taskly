@@ -1,10 +1,3 @@
-//
-//  AddTaskView.swift
-//  Taskly
-//
-//  Created by steven coverdale on 2026-03-26.
-//
-
 import SwiftUI
 
 struct AddTaskView: View {
@@ -13,8 +6,13 @@ struct AddTaskView: View {
 
     @State private var title = ""
     @State private var notes = ""
-    @State private var dueDate = Date()
+    @State private var dueDate: Date
     @State private var priority: TaskItem.Priority = .medium
+    @State private var category: TaskItem.Category = .general
+
+    init(prefilledDate: Date = .now) {
+        _dueDate = State(initialValue: prefilledDate)
+    }
 
     var body: some View {
         NavigationStack {
@@ -22,11 +20,17 @@ struct AddTaskView: View {
                 TextField("Title", text: $title)
                 TextField("Notes", text: $notes)
 
-                DatePicker("Due Date", selection: $dueDate, displayedComponents: .date)
+                DatePicker("Due Date & Time", selection: $dueDate, displayedComponents: [.date, .hourAndMinute])
 
                 Picker("Priority", selection: $priority) {
                     ForEach(TaskItem.Priority.allCases, id: \.self) { p in
                         Text(p.rawValue.capitalized)
+                    }
+                }
+
+                Picker("Category", selection: $category) {
+                    ForEach(TaskItem.Category.allCases, id: \.self) { c in
+                        Text(c.rawValue)
                     }
                 }
             }
@@ -38,11 +42,13 @@ struct AddTaskView: View {
                             title: title,
                             notes: notes,
                             dueDate: dueDate,
-                            priority: priority
+                            priority: priority,
+                            category: category
                         )
                         taskVM.addTask(newTask)
                         dismiss()
                     }
+                    .disabled(title.trimmingCharacters(in: .whitespaces).isEmpty)
                 }
 
                 ToolbarItem(placement: .cancellationAction) {

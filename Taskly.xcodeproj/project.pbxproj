@@ -28,6 +28,7 @@
 		07F95D8C2F76236400D4CC75 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F95D8B2F76236400D4CC75 /* CalendarView.swift */; };
 		07F95D8E2F76238400D4CC75 /* CalendarMonthGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F95D8D2F76238400D4CC75 /* CalendarMonthGrid.swift */; };
 		07F95D902F7623AB00D4CC75 /* CalendarTaskCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07F95D8F2F7623AB00D4CC75 /* CalendarTaskCard.swift */; };
+		36CEFB002F903A5500809E6E /* CalendarWeekView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36CEFAFF2F903A5500809E6E /* CalendarWeekView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +73,7 @@
 		07F95D8B2F76236400D4CC75 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 		07F95D8D2F76238400D4CC75 /* CalendarMonthGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarMonthGrid.swift; sourceTree = "<group>"; };
 		07F95D8F2F7623AB00D4CC75 /* CalendarTaskCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarTaskCard.swift; sourceTree = "<group>"; };
+		36CEFAFF2F903A5500809E6E /* CalendarWeekView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarWeekView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -212,6 +214,7 @@
 				07F95D8B2F76236400D4CC75 /* CalendarView.swift */,
 				07F95D8D2F76238400D4CC75 /* CalendarMonthGrid.swift */,
 				07F95D8F2F7623AB00D4CC75 /* CalendarTaskCard.swift */,
+				36CEFAFF2F903A5500809E6E /* CalendarWeekView.swift */,
 			);
 			path = Calendar;
 			sourceTree = "<group>";
@@ -378,6 +381,7 @@
 				07F95D3E2F761BF600D4CC75 /* TasklyApp.swift in Sources */,
 				07F95D772F761D6200D4CC75 /* TaskRow.swift in Sources */,
 				07F95D882F76220F00D4CC75 /* DashboardView.swift in Sources */,
+				36CEFB002F903A5500809E6E /* CalendarWeekView.swift in Sources */,
 				07F95D752F761D4500D4CC75 /* TaskListView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -542,6 +546,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Taskly/Preview Content\"";
+				DEVELOPMENT_TEAM = J6CY8XH2A6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -570,6 +575,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Taskly/Preview Content\"";
+				DEVELOPMENT_TEAM = J6CY8XH2A6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
